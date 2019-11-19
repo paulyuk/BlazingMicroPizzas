@@ -20,8 +20,8 @@ jobs:
     - uses: azure/k8s-actions/aks-set-context@master
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
-        cluster-name: contoso
-        resource-group: contoso-rg
+        cluster-name: BlazingPizzaCluster
+        resource-group: DevIntersections-Pizza
        
 #    - uses: azure/k8s-actions/k8s-create-secret@master
 #      with:
