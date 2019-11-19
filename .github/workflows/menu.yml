@@ -37,6 +37,6 @@ jobs:
         manifests: |
           ./src/k8s/menu.yaml
         images: |
-          blazingreg.azurecr.io/blazingpizzaweb:${{ github.sha }}
+          blazingreg.azurecr.io/blazingpizzamenu:${{ github.sha }}
 #        imagepullsecrets: |
 #          demo-secret
