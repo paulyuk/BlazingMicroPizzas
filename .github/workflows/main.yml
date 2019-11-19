@@ -1,41 +1,40 @@
-name: CI
-
 on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-        
-workflow "DockerFlowExample" {
-  resolves = ["Docker Push"]
-  on = "push"
-}
+    - uses: actions/checkout@master
+   
+    - uses: azure/container-actions/docker-login@master
+      with:
+        login-server: blazingreg.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+   
+    - run: |
+        docker build -f ./src/BlazingPizza.Web/Dockerfile -t blazingreg.azurecr.io/blazingpizzaweb:${{ github.sha }} ./src/
+        docker push blazingreg.azurecr.io/blazingpizzaweb:${{ github.sha }}
+     
+    # Set the target AKS cluster.
+    - uses: azure/k8s-actions/aks-set-context@master
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: contoso
+        resource-group: contoso-rg
+       
+#    - uses: azure/k8s-actions/k8s-create-secret@master
+#      with:
+#        container-registry-url: blazingreg.azurecr.io
+#        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+#        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+#        secret-name: demo-secret
 
-action "Docker Login" {
-  uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  secrets = ["DOCKER_REGISTRY_URL", "DOCKER_USERNAME", "DOCKER_PASSWORD"]
-}
-
-action "Docker Build" {
-  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Docker Login"]
-  args = ["build", "-t", "$DOCKER_REGISTRY_URL/hello-world:latest", "docs/integration/github-actions"]
-  secrets = ["DOCKER_REGISTRY_URL"]
-}
-
-action "Docker Push" {
-  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Docker Build"]
-  args = ["push", "$DOCKER_REGISTRY_URL/hello-world:latest"]
-  secrets = ["DOCKER_REGISTRY_URL"]
-}
+    - uses: azure/k8s-actions/k8s-deploy@master
+      with:
+        manifests: |
+          ./src/k8s/web.yml
+        images: |
+          blazingreg.azurecr.io/blazingpizzaweb:${{ github.sha }}
+#        imagepullsecrets: |
+#          demo-secret
