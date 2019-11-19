@@ -14,7 +14,7 @@ jobs:
         email: ${{ secrets.REGISTRY_EMAIL }}
    
     - run: |
-        docker build -f ./src/BlazingPizza.Web/Dockerfile -t blazingreg.azurecr.io/blazingpizzamenu:${{ github.sha }} ./src/
+        docker build -f ./src/BlazingPizza.Menu/Dockerfile -t blazingreg.azurecr.io/blazingpizzamenu:${{ github.sha }} ./src/
         docker push blazingreg.azurecr.io/blazingpizzamenu:${{ github.sha }}
      
     # Set the target AKS cluster.
