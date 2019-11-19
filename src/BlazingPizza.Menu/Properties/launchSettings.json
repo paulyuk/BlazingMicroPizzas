@@ -12,6 +12,13 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {},
       "httpPort": 55000
+    },
+    "Azure Dev Spaces": {
+      "commandName": "AzureDevSpaces",
+      "launchBrowser": true,
+      "resourceGroup": "DevIntersections-Pizza",
+      "aksName": "BlazingPizzaCluster",
+      "subscriptionId": "52462f3d-9226-4c1a-ae95-9a1f2b2c2e0f"
     }
   }
 }
