@@ -6,11 +6,12 @@ jobs:
     steps:
     - uses: actions/checkout@master
    
-    - uses: azure/container-actions/docker-login@master
+    - uses: azure/docker-login@v1
       with:
         login-server: blazingreg.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+        email: ${{ secrets.REGISTRY_EMAIL }}
    
     - run: |
         docker build -f ./src/BlazingPizza.Web/Dockerfile -t blazingreg.azurecr.io/blazingpizzaweb:${{ github.sha }} ./src/
