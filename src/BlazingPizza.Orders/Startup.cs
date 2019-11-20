@@ -41,7 +41,7 @@ namespace BlazingPizza.Orders
             });
 
             services.AddHealthChecks()
-                    .AddMongoDb(Configuration["Data:Connection2"]);
+                    .AddMongoDb(Configuration["Data:Connection"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
