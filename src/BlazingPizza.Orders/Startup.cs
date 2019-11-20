@@ -37,6 +37,9 @@ namespace BlazingPizza.Orders
             {
                 module.Counters.Add(new EventCounterCollectionRequest("BlazingOrders.Pizza", "total-orders"));
             });
+
+            services.AddHealthChecks()
+                    .AddMongoDb(Configuration["Data:Connection"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,9 +52,9 @@ namespace BlazingPizza.Orders
 
             app.UseRouting();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/healthz");
                 endpoints.MapControllers();
                 endpoints.MapGrpcService<OrderStatusService>();
             });

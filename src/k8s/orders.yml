@@ -37,6 +37,12 @@ spec:
             - name: http
               containerPort: 5555
           imagePullPolicy: Always
+          readinessProbe:
+              httpGet:
+                path: /healthz
+                port: 80
+              initialDelaySeconds: 3
+              periodSeconds: 3
           volumeMounts:
           - name: config-volume
             mountPath: /config
