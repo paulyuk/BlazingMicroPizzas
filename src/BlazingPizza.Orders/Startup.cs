@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.ApplicationInsights.Extensibility.EventCounterCollector;
+using MongoDB.Driver;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace BlazingPizza.Orders
 {
@@ -39,7 +41,7 @@ namespace BlazingPizza.Orders
             });
 
             services.AddHealthChecks()
-                    .AddMongoDb(Configuration["Data:Connection"]);
+                    .AddMongoDb(Configuration["Data:Connection2"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
