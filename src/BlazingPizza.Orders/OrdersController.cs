@@ -12,9 +12,9 @@ namespace BlazingPizza.Orders
     [ApiController]
     public class OrdersController : Controller
     {
-        private readonly OrdersService _db;
+        private readonly IOrdersService _db;
 
-        public OrdersController(OrdersService db)
+        public OrdersController(IOrdersService db)
         {
             _db = db;
         }

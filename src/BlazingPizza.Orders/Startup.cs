@@ -28,7 +28,7 @@ namespace BlazingPizza.Orders
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<OrdersService>();
+            services.AddSingleton<IOrdersService, OrdersService>();
             services.AddControllers();
             services.AddGrpc();
             services.AddApplicationInsightsTelemetry(Configuration);
@@ -46,8 +46,6 @@ namespace BlazingPizza.Orders
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthorization();

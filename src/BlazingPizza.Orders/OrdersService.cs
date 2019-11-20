@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazingPizza.Orders
 {
-    public class OrdersService
+    public class OrdersService : IOrdersService
     {
         private readonly IConfiguration _configuration;
         private readonly IMongoCollection<Order> _orders;
@@ -20,19 +20,26 @@ namespace BlazingPizza.Orders
             _orders = database.GetCollection<Order>(_configuration["Data:Collection"]);
         }
 
-        internal async Task<IEnumerable<Order>> GetOrdersForUser(string userId)
+        public async Task<IEnumerable<Order>> GetOrdersForUser(string userId)
         {
             return await _orders.Find(o => o.UserId == userId).ToListAsync();
         }
 
-        internal async Task<Order> GetOrder(Guid orderId)
+        public async Task<Order> GetOrder(Guid orderId)
         {
             return await _orders.Find(o => o.OrderId == orderId).FirstOrDefaultAsync();
         }
 
-        internal async Task SaveOrder(Order order)
+        public async Task SaveOrder(Order order)
         {
             await _orders.InsertOneAsync(order);
         }
+    }
+
+    public interface IOrdersService
+    {
+        Task<IEnumerable<Order>> GetOrdersForUser(string userId);
+        Task<Order> GetOrder(Guid orderId);
+        Task SaveOrder(Order order);
     }
 }

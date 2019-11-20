@@ -18,6 +18,10 @@ COPY . .
 WORKDIR "/src/BlazingPizza.Orders"
 RUN dotnet build "BlazingPizza.Orders.csproj" -c Release -o /app/build
 
+WORKDIR "/src/test/unit"
+RUN dotnet test
+WORKDIR "/src/BlazingPizza.Orders"
+
 FROM build AS publish
 RUN dotnet publish "BlazingPizza.Orders.csproj" -c Release -o /app/publish
 #RUN openssl req -newkey rsa:4096 -keyout key.pem -out cert.pem -nodes -x509 -days 365  -subj "/C=US/O=BlazingPizza/OU=Orders"
