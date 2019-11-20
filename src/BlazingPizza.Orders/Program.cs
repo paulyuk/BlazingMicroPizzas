@@ -30,6 +30,10 @@ namespace BlazingPizza.Orders
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
+                        options.Listen(IPAddress.Any, 8080, o => o.Protocols = HttpProtocols.Http1);
+                    });
+                    webBuilder.ConfigureKestrel(options =>
+                    {
                         options.Listen(IPAddress.Any, 5555, o => o.Protocols = HttpProtocols.Http2);
                     });
                     webBuilder.UseStartup<Startup>();

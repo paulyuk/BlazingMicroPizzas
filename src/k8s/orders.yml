@@ -40,7 +40,7 @@ spec:
           readinessProbe:
               httpGet:
                 path: /healthz
-                port: 80
+                port: 8080
               initialDelaySeconds: 3
               periodSeconds: 3
           volumeMounts:
